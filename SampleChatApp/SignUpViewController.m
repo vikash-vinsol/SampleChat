@@ -9,20 +9,47 @@
 #import "SignUpViewController.h"
 #import "Constant.h"
 
+
 @interface SignUpViewController ()
 
 @end
 
 @implementation SignUpViewController
+{
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self)
+    {
     }
     return self;
 }
+
+
+-(Guest *)guest
+{
+    
+    if (!_guest)
+    {
+        
+        _guest = [[Guest alloc] init];
+    }
+    
+    return _guest;
+}
+
+-(Member *)member
+{
+    if (!_member)
+    {
+        _member = [[Member alloc] init];
+    }
+    
+    return _member;
+}
+
 
 - (void)viewDidLoad
 {
@@ -35,40 +62,88 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 - (IBAction)submitGuestDetails:(id)sender
 {
-    // 1
-    NSURL *url = [NSURL URLWithString:Site_Url];
+    self.guest.name = _nameTextField.text;
+    self.guest.email = _emailTextField.text;
+    self.guest.password = _passwordTextField.text;
+    
+    
+    NSDictionary *dictionary = @{@"name":self.guest.name, @"email":self.guest.email, @"Password":self.guest.password};
+    
+    NSLog(@"Send Dictionary %@",dictionary);
+
+    [self sendGuestDetailsToServer:dictionary];
+}
+
+-(void)sendGuestDetailsToServer : (NSDictionary *)dictionary
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *tokenString = [self deviceToken:[defaults objectForKey:@"d_Token"]];
+
+    NSString *hostString = [NSString stringWithFormat:@"%@?devicetoken=%@",Site_Url,tokenString];
+    NSURL *url = [NSURL URLWithString:hostString];
     
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
     
-    // 2
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     request.HTTPMethod = @"POST";
     
-    // 3
-    NSDictionary *dictionary = @{@"name":@"vikas", @"email":@"vikash@vinsol.com", @"Password":@"123456", @"device_token":@"1234567890"};
+    NSDictionary *postDictionary = dictionary;
     
     NSError *error = nil;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
+    NSData *data = [NSJSONSerialization dataWithJSONObject:postDictionary
                                                    options:kNilOptions error:&error];
     
     if (!error)
     {
-        // 4
         NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request
                                                                    fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error)
-        {
-            NSLog(@"Updated Successfully");
-                                                                   }];
+                                              {
+                                                  
+                                                  NSString * text = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+                                                  NSLog(@"Data = %@",text);
+                                                  NSLog(@"Updated Successfully");
+                                                  
+                                                  [self convertGuestToMember];
+                                              }];
         
-        // 5
         [uploadTask resume];
+    }
+    
+    else
+    {
+        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Wrong email" delegate:self cancelButtonTitle:@"Try Again" otherButtonTitles:nil, nil];
+        
+        [errorAlert show];
     }
 
 }
 
+-(void)convertGuestToMember
+{
+    self.member.name = self.guest.name;
+    self.member.email= self.guest.email;
+    
+    _friendController = [[UIStoryboard storyboardWithName:@"Main"
+                                                   bundle:NULL] instantiateViewControllerWithIdentifier:@"Friends_Controller"];
+    
+    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:_friendController];
+   
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+
+-(NSString *)deviceToken : (NSData *)data
+{
+    NSString *tokenString = [[[[data description]
+                               stringByReplacingOccurrencesOfString:@"<"withString:@""] stringByReplacingOccurrencesOfString:@">" withString:@""]
+                             stringByReplacingOccurrencesOfString: @" " withString: @""];
+
+    return tokenString;
+}
 /*
 #pragma mark - Navigation
 

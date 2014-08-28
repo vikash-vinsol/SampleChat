@@ -25,6 +25,7 @@
 		EB22D6D319ADCE4800745D47 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB22D6D019ADCE4800745D47 /* ParseFacebookUtils.framework */; };
 		EB22D6D519ADD49700745D47 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB22D6D419ADD49700745D47 /* Security.framework */; };
 		EB22D6D719ADD4A100745D47 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB22D6D619ADD4A100745D47 /* SystemConfiguration.framework */; };
+		EB23731219AF48DE005F5C4F /* FriendsListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB23731119AF48DE005F5C4F /* FriendsListTableViewController.m */; };
 		EBB5022D19ADD5E500D2485A /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5022C19ADD5E500D2485A /* libz.1.1.3.dylib */; };
 		EBB5022F19ADD5FF00D2485A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5022E19ADD5FF00D2485A /* StoreKit.framework */; };
 		EBB5023119ADD60C00D2485A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5023019ADD60C00D2485A /* libz.dylib */; };
@@ -73,6 +74,8 @@
 		EB22D6D019ADCE4800745D47 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		EB22D6D419ADD49700745D47 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		EB22D6D619ADD4A100745D47 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		EB23731019AF48DE005F5C4F /* FriendsListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsListTableViewController.h; sourceTree = "<group>"; };
+		EB23731119AF48DE005F5C4F /* FriendsListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsListTableViewController.m; sourceTree = "<group>"; };
 		EBB5022C19ADD5E500D2485A /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
 		EBB5022E19ADD5FF00D2485A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		EBB5023019ADD60C00D2485A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -247,6 +250,8 @@
 				EBB5024219AE2ED700D2485A /* GuestViewController.m */,
 				EBB5024519AE331B00D2485A /* SignUpViewController.h */,
 				EBB5024619AE331B00D2485A /* SignUpViewController.m */,
+				EB23731019AF48DE005F5C4F /* FriendsListTableViewController.h */,
+				EB23731119AF48DE005F5C4F /* FriendsListTableViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -351,6 +356,7 @@
 				EBB5023C19AE127600D2485A /* User.m in Sources */,
 				EBB5024019AE12A100D2485A /* Message.m in Sources */,
 				EBB5024A19AE37BD00D2485A /* Guest.m in Sources */,
+				EB23731219AF48DE005F5C4F /* FriendsListTableViewController.m in Sources */,
 				EBB5024D19AE37CD00D2485A /* Member.m in Sources */,
 				EBB5024719AE331B00D2485A /* SignUpViewController.m in Sources */,
 				EB22D69319ADB9CB00745D47 /* AppDelegate.m in Sources */,

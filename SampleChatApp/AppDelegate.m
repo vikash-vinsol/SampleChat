@@ -35,14 +35,17 @@
     currentInstallation.channels = @[@"global"];
     [currentInstallation saveInBackground];
     
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    [defaults setObject:deviceToken forKey:@"d_Token"];
+    [defaults synchronize];
+
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     
-    NSLog(@"Alert message: %@",[[userInfo valueForKey:@"aps"] valueForKey:@"sender_id"]);
-
-    
+    NSLog(@"Sender ID: %@",[[userInfo valueForKey:@"aps"] valueForKey:@"sender_id"]);
     NSLog(@"Alert message: %@",[userInfo valueForKey:@"message"]);
     NSLog(@"User Name : %@",[userInfo valueForKey:@"user_name"]);
 
