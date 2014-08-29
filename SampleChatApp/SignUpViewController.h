@@ -18,6 +18,5 @@
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (strong, nonatomic) Guest *guest;
 @property (strong, nonatomic) Member *member;
-@property (strong, nonatomic)FriendsListTableViewController *friendController;
 
 @end

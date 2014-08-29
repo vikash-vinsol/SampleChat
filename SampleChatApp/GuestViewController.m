@@ -44,27 +44,16 @@
 
 - (IBAction)submitButtonAction:(id)sender
 {
-    self.guest.email = _emailTextField.text;
-    self.guest.password = _passwordTextField.text;
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *tokenString    = [defaults objectForKey:@"d_Token"];
-    
-    NSDictionary *dictionary = @{@"email":self.guest.email, @"password":self.guest.password, @"device_token" : tokenString};
-    
-    NSString *hostString = [NSString stringWithFormat:@"%@/signin",Site_Url];
+    NSDictionary *dictionary = [self createParamsForServer];
+    NSString *hostString = [NSString stringWithFormat:@"%@/signin", Site_Url];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager POST:hostString parameters:dictionary success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          NSLog(@"JSON: %@", responseObject);
          
-         self.member.name = self.guest.name;
-         self.member.email= self.guest.email;
-         
-         _friendController = [[UIStoryboard storyboardWithName:@"Main"
-                                                        bundle:NULL] instantiateViewControllerWithIdentifier:@"Friends_Controller"];
-         
+         self.member.email = self.guest.email;
          [self openFriendsListViewController];
 
      }
@@ -74,10 +63,22 @@
      }];
 }
 
+
+-(NSDictionary *)createParamsForServer
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *tokenString = [defaults objectForKey:@"d_Token"];
+    self.guest.email = _emailTextField.text;
+    self.guest.password = _passwordTextField.text;
+    NSDictionary *dictionary = @{@"email":self.guest.email, @"password":self.guest.password, @"device_token" : tokenString};
+    return dictionary;
+}
+
 -(void)openFriendsListViewController
 {
-    UINavigationController * navigationController = [[UINavigationController alloc]initWithRootViewController:_friendController];
-    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:NULL];
+    FriendsListTableViewController *friendController  = [storyboard instantiateViewControllerWithIdentifier:@"Friends_Controller"];
+    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:friendController];
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 

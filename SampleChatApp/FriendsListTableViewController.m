@@ -9,9 +9,13 @@
 #import "FriendsListTableViewController.h"
 #import "AFNetworking.h"
 #import "Constant.h"
+#import "ChatViewController.h"
 
 
 @interface FriendsListTableViewController ()
+{
+    NSMutableArray *friendsArray;
+}
 
 @end
 
@@ -30,28 +34,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
+    [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+
     NSString *hostString = [NSString stringWithFormat:@"%@/users",Site_Url];
     
     NSURL *URL = [NSURL URLWithString:hostString];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    
     AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     op.responseSerializer = [AFJSONResponseSerializer serializer];
     [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
      {
-        NSLog(@"JSON: %@", responseObject);
+         friendsArray = [responseObject objectForKey:@"users"];
+         NSLog(@"JSON: %@", friendsArray);
+         [self.tableView reloadData];
+
     }
                               failure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
         NSLog(@"Error: %@", error);
     }];
     [[NSOperationQueue mainQueue] addOperation:op];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -71,67 +75,35 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 10;
+    return [friendsArray count];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Friend_List" forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"FontCell" forIndexPath:indexPath];
+    cell.textLabel.text = [[friendsArray objectAtIndex:indexPath.row] objectForKey:@"name"];
     return cell;
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    // Make sure your segue name in storyboard is the same as this line
+    if ([[segue identifier] isEqualToString:@"FriendChat"])
+    {
+        // Get reference to the destination view controller
+        ChatViewController *chatViewController = [segue destinationViewController];
+        
+        // Pass any objects to the view controller here, like...
+        [chatViewController friendName:self];
+    }
 }
-*/
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"%d", indexPath.row); // you can see selected row number in your console;
+}
 
 @end

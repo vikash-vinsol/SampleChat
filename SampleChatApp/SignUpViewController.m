@@ -48,15 +48,7 @@
 {
     [self.passwordTextField resignFirstResponder];
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *tokenString = [defaults objectForKey:@"d_Token"];
-    
-    self.guest.name = _nameTextField.text;
-    self.guest.email = _emailTextField.text;
-    self.guest.password = _passwordTextField.text;
-    
-    NSDictionary *dictionary = @{@"name":self.guest.name, @"email":self.guest.email, @"password":self.guest.password, @"device_token" : tokenString};
-    
+    NSDictionary *dictionary = [self createParamsForServer];
     NSString *hostString = [NSString stringWithFormat:@"%@/users/register",Site_Url];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -64,6 +56,7 @@
      {
         NSLog(@"JSON: %@", responseObject);
          [self convertGuestToMember];
+         [self openFriendsListViewController];
     }
           failure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
@@ -71,14 +64,23 @@
     }];
 }
 
+-(NSDictionary *)createParamsForServer
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *tokenString = [defaults objectForKey:@"d_Token"];
+    self.guest.name = _nameTextField.text;
+    self.guest.email = _emailTextField.text;
+    self.guest.password = _passwordTextField.text;
+    
+    NSDictionary *dictionary = @{@"name":self.guest.name, @"email":self.guest.email, @"password":self.guest.password, @"device_token" : tokenString};
+
+    return dictionary;
+}
 
 -(NSURL *)generateHostUrl
 {
     NSString *hostString = [NSString stringWithFormat:@"%@/users/register",Site_Url];
     NSURL *url = [NSURL URLWithString:hostString];
-    
-    NSLog(@"URL %@",url);
-
     return url;
 }
 
@@ -86,19 +88,14 @@
 {
     self.member.name = self.guest.name;
     self.member.email= self.guest.email;
-    
-    _friendController = [[UIStoryboard storyboardWithName:@"Main"
-                                                        bundle:NULL]instantiateViewControllerWithIdentifier:@"Friends_Controller"];
-    
-    [self openFriendsListViewController];
 }
 
 -(void)openFriendsListViewController
 {
-    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:_friendController];
-    
+    UIStoryboard *storyboard= [UIStoryboard storyboardWithName:@"Main" bundle:NULL];
+    FriendsListTableViewController *friendController  = [storyboard instantiateViewControllerWithIdentifier:@"Friends_Controller"];
+    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:friendController];
     [self presentViewController:navigationController animated:YES completion:nil];
 }
-
 
 @end
