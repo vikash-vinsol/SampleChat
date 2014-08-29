@@ -36,11 +36,23 @@
     [currentInstallation saveInBackground];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    [defaults setObject:deviceToken forKey:@"d_Token"];
+    NSString *tokenString = [self deviceToken:deviceToken];
+    [defaults setObject:tokenString forKey:@"d_Token"];
     [defaults synchronize];
-
+    
 }
+
+
+-(NSString *) deviceToken : (NSData *)data
+{
+    NSString *tokenString = [[[data description]
+                              stringByReplacingOccurrencesOfString:@"<"withString:@""] stringByReplacingOccurrencesOfString:@">" withString:@""];
+    
+    NSLog(@"Token String %@",tokenString);
+    
+    return tokenString;
+}
+
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {

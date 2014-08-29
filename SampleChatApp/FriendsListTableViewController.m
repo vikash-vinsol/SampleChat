@@ -7,6 +7,9 @@
 //
 
 #import "FriendsListTableViewController.h"
+#import "AFNetworking.h"
+#import "Constant.h"
+
 
 @interface FriendsListTableViewController ()
 
@@ -27,6 +30,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSString *hostString = [NSString stringWithFormat:@"%@/users",Site_Url];
+    
+    NSURL *URL = [NSURL URLWithString:hostString];
+    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    op.responseSerializer = [AFJSONResponseSerializer serializer];
+    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+        NSLog(@"JSON: %@", responseObject);
+    }
+                              failure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
+        NSLog(@"Error: %@", error);
+    }];
+    [[NSOperationQueue mainQueue] addOperation:op];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -55,16 +74,16 @@
     return 10;
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Friend_List" forIndexPath:indexPath];
     
     // Configure the cell...
     
     return cell;
 }
-*/
+
 
 /*
 // Override to support conditional editing of the table view.

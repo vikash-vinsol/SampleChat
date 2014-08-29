@@ -9,8 +9,6 @@
 #ifndef SampleChatApp_Constant_h
 #define SampleChatApp_Constant_h
 
-#define Site_Url @"http:/google.com"
-
-
+#define Site_Url @"http://192.168.0.14:3000"
 
 #endif

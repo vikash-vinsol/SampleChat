@@ -7,6 +7,8 @@
 //
 
 #import "GuestViewController.h"
+#import "AFNetworking.h"
+#import "Constant.h"
 
 @interface GuestViewController ()
 
@@ -29,10 +31,54 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning
+-(Guest *)guest
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    if (!_guest)
+    {
+        
+        _guest = [[Guest alloc] init];
+    }
+    
+    return _guest;
+}
+
+- (IBAction)submitButtonAction:(id)sender
+{
+    self.guest.email = _emailTextField.text;
+    self.guest.password = _passwordTextField.text;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *tokenString    = [defaults objectForKey:@"d_Token"];
+    
+    NSDictionary *dictionary = @{@"email":self.guest.email, @"password":self.guest.password, @"device_token" : tokenString};
+    
+    NSString *hostString = [NSString stringWithFormat:@"%@/signin",Site_Url];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager POST:hostString parameters:dictionary success:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         NSLog(@"JSON: %@", responseObject);
+         
+         self.member.name = self.guest.name;
+         self.member.email= self.guest.email;
+         
+         _friendController = [[UIStoryboard storyboardWithName:@"Main"
+                                                        bundle:NULL] instantiateViewControllerWithIdentifier:@"Friends_Controller"];
+         
+         [self openFriendsListViewController];
+
+     }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"Error: %@", error);
+     }];
+}
+
+-(void)openFriendsListViewController
+{
+    UINavigationController * navigationController = [[UINavigationController alloc]initWithRootViewController:_friendController];
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 /*

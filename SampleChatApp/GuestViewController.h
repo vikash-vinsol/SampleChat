@@ -7,7 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Guest.h"
+#import "Member.h"
+#import "FriendsListTableViewController.h"
 
 @interface GuestViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (nonatomic, strong) Guest *guest;
+@property (nonatomic, strong) Member *member;
+@property (nonatomic, strong) FriendsListTableViewController *friendController;
+- (IBAction)submitButtonAction:(id)sender;
+
 
 @end
