@@ -103,73 +103,73 @@
     [self.footerView setFrame:messageFrame];
 }
 
-- (IBAction)sendButtonAction:(id)sender
-{
-    message = [[Message alloc] init];
-    
-    [_messageTextField resignFirstResponder];
-    [self sendMessageToServer];
-    _messageTextField.text  = @"";
-}
-
--(void)sendMessageToServer
-
-{
-    NSString *hostString = [NSString stringWithFormat:@"%@/user/%@/send_message",Site_Url,message.senderID];
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager POST:hostString parameters:[self createParamsForServer] success:^(AFHTTPRequestOperation *operation, id responseObject)
-     {
-         NSLog(@"JSON: %@", responseObject);
-     }
-          failure:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         NSLog(@"Error: %@", error);
-     }];
-}
-
-
--(NSDictionary *)createParamsForServer
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    message.senderID = [defaults objectForKey:@"UserId"];
-    message.receiverID = _receiverID;
-    message.text = _messageTextField.text;
-
-    [member.chatArray addObject:message];
-    [self.chatTableView reloadData];
-    
-    NSLog(@"senderID %@",message.senderID);
-    NSLog(@"receiverID %@",_receiverID);
-
-    NSDictionary *hostDictionary = @{@"receiver_id" : message.receiverID, @"text" : message.text};
-    return hostDictionary;
-}
-
-// Set Values when response return...!!!
--(void)getChatFromServer
-{
-    [member.chatArray addObject:message];
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [member.chatArray count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ChatCell" forIndexPath:indexPath];
-    Message *chat = [member.chatArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = chat.text;
-    return cell;
-}
+//- (IBAction)sendButtonAction:(id)sender
+//{
+//    message = [[Message alloc] init];
+//    
+//    [_messageTextField resignFirstResponder];
+//    [self sendMessageToServer];
+//    _messageTextField.text  = @"";
+//}
+//
+//-(void)sendMessageToServer
+//
+//{
+//    NSString *hostString = [NSString stringWithFormat:@"%@/user/%@/send_message",Site_Url,message.senderId];
+//    
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    [manager POST:hostString parameters:[self createParamsForServer] success:^(AFHTTPRequestOperation *operation, id responseObject)
+//     {
+//         NSLog(@"JSON: %@", responseObject);
+//     }
+//          failure:^(AFHTTPRequestOperation *operation, NSError *error)
+//     {
+//         NSLog(@"Error: %@", error);
+//     }];
+//}
+//
+//
+//-(NSDictionary *)createParamsForServer
+//{
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    message.senderId = [defaults objectForKey:@"UserId"];
+//    message.senderId = _receiverID;
+//    message.text = _messageTextField.text;
+//
+//    [member.chatArray addObject:message];
+//    [self.chatTableView reloadData];
+//    
+//    NSLog(@"senderID %@",message.senderID);
+//    NSLog(@"receiverID %@",_receiverID);
+//
+//    NSDictionary *hostDictionary = @{@"receiver_id" : message.receiverID, @"text" : message.text};
+//    return hostDictionary;
+//}
+//
+//// Set Values when response return...!!!
+//-(void)getChatFromServer
+//{
+//    [member.chatArray addObject:message];
+//}
+//
+//#pragma mark - Table view data source
+//
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+//{
+//    return 1;
+//}
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//    return [member.chatArray count];
+//}
+//
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ChatCell" forIndexPath:indexPath];
+//    Message *chat = [member.chatArray objectAtIndex:indexPath.row];
+//    cell.textLabel.text = chat.text;
+//    return cell;
+//}
 
 @end

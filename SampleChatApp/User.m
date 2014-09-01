@@ -2,33 +2,20 @@
 //  User.m
 //  SampleChatApp
 //
-//  Created by Vikash Soni on 27/08/14.
+//  Created by Vikash Soni on 01/09/14.
 //  Copyright (c) 2014 Vikash Soni. All rights reserved.
 //
 
 #import "User.h"
+#import "Message.h"
+
 
 @implementation User
 
--(instancetype)init
-{
-    self = [super init];
-    
-    if ( self)
-    {
-        
-    }
-    
-    return self;
-}
-
--(NSString *)deviceToken
-{
-    if (!_deviceToken)
-    {
-        _deviceToken = [[NSString alloc] init];
-    }
-    return _deviceToken;
-}
+@dynamic id;
+@dynamic name;
+@dynamic email;
+@dynamic password;
+@dynamic message;
 
 @end

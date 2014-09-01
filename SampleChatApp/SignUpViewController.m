@@ -10,6 +10,7 @@
 #import "Constant.h"
 #import "AFNetworking.h"
 #import "UIViewController+OpenFriendsList.h"
+#import "CoreDataHelper.h"
 
 
 @interface SignUpViewController () <NSURLSessionDelegate>
@@ -18,15 +19,6 @@
 
 @implementation SignUpViewController
 
--(Guest *)guest
-{
-    if (!_guest)
-    {
-        _guest = [[Guest alloc] init];
-    }
-    
-    return _guest;
-}
 
 -(void)viewDidLoad
 {
@@ -57,11 +49,15 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *tokenString = [defaults objectForKey:@"d_Token"];
     
-    self.guest.name = _nameTextField.text;
-    self.guest.email = _emailTextField.text;
-    self.guest.password = _passwordTextField.text;
     
-    NSDictionary *dictionary = @{@"name":self.guest.name, @"email":self.guest.email, @"password":self.guest.password, @"device_token" : tokenString};
+    NSManagedObjectContext *moc = [CoreDataHelper managedObjectContext];
+    Guest *guest = [CoreDataHelper insertManagedObjectOfClass:[Guest class] inManagedObjectContext:moc];
+    guest.email = _emailTextField.text;
+    guest.password = _passwordTextField.text;
+    guest.name = _nameTextField.text;
+
+    
+    NSDictionary *dictionary = @{@"name":guest.name, @"email":guest.email, @"password":guest.password, @"device_token" : tokenString};
 
     return dictionary;
 }

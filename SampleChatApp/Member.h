@@ -2,18 +2,16 @@
 //  Member.h
 //  SampleChatApp
 //
-//  Created by Vikash Soni on 27/08/14.
+//  Created by Vikash Soni on 01/09/14.
 //  Copyright (c) 2014 Vikash Soni. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 #import "User.h"
-#import "Message.h"
+
 
 @interface Member : User
-{
-    
-}
 
-@property (nonatomic,strong) NSMutableArray *chatArray;
 
 @end

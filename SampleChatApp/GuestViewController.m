@@ -10,6 +10,7 @@
 #import "AFNetworking.h"
 #import "Constant.h"
 #import "UIViewController+OpenFriendsList.h"
+#import "CoreDataHelper.h"
 
 @interface GuestViewController ()
 
@@ -17,25 +18,7 @@
 
 @implementation GuestViewController
 
--(instancetype)init
-{
-    self = [super init];
-    
-    if (self)
-    {
-        _guest = [[Guest alloc] init];
-    }
-    return self;
-}
 
--(Guest *)guest
-{
-    if (!_guest)
-    {
-        _guest = [[Guest alloc] init];
-    }
-    return _guest;
-}
 
 - (IBAction)submitButtonAction:(id)sender
 {
@@ -57,11 +40,16 @@
 
 -(NSDictionary *)createParamsForServer
 {
+    NSManagedObjectContext *moc = [CoreDataHelper managedObjectContext];
+    Guest *guest = [CoreDataHelper insertManagedObjectOfClass:[Guest class] inManagedObjectContext:moc];
+    guest.email = _emailTextField.text;
+    guest.password = _passwordTextField.text;
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *tokenString = [defaults objectForKey:@"d_Token"];
-    self.guest.email = _emailTextField.text;
-    self.guest.password = _passwordTextField.text;
-    NSDictionary *dictionary = @{@"email":self.guest.email, @"password":self.guest.password, @"device_token" : tokenString};
+    
+    NSDictionary *dictionary = @{@"email":guest.email, @"password":guest.password, @"device_token" : tokenString};
+    
     return dictionary;
 }
 

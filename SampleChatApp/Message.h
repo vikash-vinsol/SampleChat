@@ -2,21 +2,21 @@
 //  Message.h
 //  SampleChatApp
 //
-//  Created by Vikash Soni on 27/08/14.
+//  Created by Vikash Soni on 01/09/14.
 //  Copyright (c) 2014 Vikash Soni. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "User.h"
+#import <CoreData/CoreData.h>
 
-@interface Message : NSObject
-{
-    
-}
+@class User;
 
-@property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) NSString *senderID;
-@property (nonatomic, strong) NSString *receiverID;
+@interface Message : NSManagedObject
 
+@property (nonatomic, retain) NSString * senderId;
+@property (nonatomic, retain) NSString * receiverId;
+@property (nonatomic, retain) NSString * text;
+@property (nonatomic, retain) NSString * id;
+@property (nonatomic, retain) User *user;
 
 @end
