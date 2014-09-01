@@ -14,9 +14,9 @@
     
 }
 
-@property (nonatomic, strong) NSString *uid;
 @property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) User *senderID;
-@property (nonatomic, strong) User *receiverID;
+@property (nonatomic, strong) NSString *senderID;
+@property (nonatomic, strong) NSString *receiverID;
+
 
 @end

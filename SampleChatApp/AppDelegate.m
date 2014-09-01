@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 #import "Message.h"
+#import "ChatViewController.h"
 
 @implementation AppDelegate
 
@@ -21,8 +22,6 @@
     [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge|
                                                     UIRemoteNotificationTypeSound|
                                                     UIRemoteNotificationTypeAlert];
-    
-    
     
     return YES;
 }
@@ -39,7 +38,7 @@
     NSString *tokenString = [self deviceToken:deviceToken];
     [defaults setObject:tokenString forKey:@"d_Token"];
     [defaults synchronize];
-    
+
 }
 
 
@@ -56,12 +55,39 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    
     NSLog(@"Sender ID: %@",[[userInfo valueForKey:@"aps"] valueForKey:@"sender_id"]);
     NSLog(@"Alert message: %@",[userInfo valueForKey:@"message"]);
     NSLog(@"User Name : %@",[userInfo valueForKey:@"user_name"]);
-
+    
     [PFPush handlePush:userInfo];
+    if (application.applicationState == UIApplicationStateActive )
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Bildirim"
+                                                            message:[NSString stringWithFormat:@"%@ ",[[userInfo objectForKey:@"aps"] objectForKey:@"alert"]]
+                                                           delegate:self cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+    
+    else
+    {
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                                 bundle: nil];
+
+        ChatViewController *mainViewController = (ChatViewController*)[mainStoryboard
+                                                                           instantiateViewControllerWithIdentifier: @"ChatVC"];
+        
+        [mainViewController setReceiverName : @"abd"];
+        [mainViewController setReceiverID: @"4"];
+
+        
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+        
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        [self.window setRootViewController:navigationController];
+        [self.window setBackgroundColor:[UIColor whiteColor]];
+        [self.window makeKeyAndVisible];
+    }
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

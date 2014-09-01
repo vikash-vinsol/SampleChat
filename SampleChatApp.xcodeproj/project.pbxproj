@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EB0A023C19B090880069517B /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB0A023B19B090880069517B /* ChatViewController.m */; };
+		EB0A023F19B0A0500069517B /* UIViewController+OpenFriendsList.m in Sources */ = {isa = PBXBuildFile; fileRef = EB0A023E19B0A0500069517B /* UIViewController+OpenFriendsList.m */; };
 		EB22D68319ADB9CB00745D47 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB22D68219ADB9CB00745D47 /* Foundation.framework */; };
 		EB22D68519ADB9CB00745D47 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB22D68419ADB9CB00745D47 /* CoreGraphics.framework */; };
 		EB22D68719ADB9CB00745D47 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB22D68619ADB9CB00745D47 /* UIKit.framework */; };
@@ -72,6 +73,8 @@
 /* Begin PBXFileReference section */
 		EB0A023A19B090880069517B /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
 		EB0A023B19B090880069517B /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
+		EB0A023D19B0A0500069517B /* UIViewController+OpenFriendsList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+OpenFriendsList.h"; sourceTree = "<group>"; };
+		EB0A023E19B0A0500069517B /* UIViewController+OpenFriendsList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+OpenFriendsList.m"; sourceTree = "<group>"; };
 		EB22D67F19ADB9CB00745D47 /* SampleChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB22D68219ADB9CB00745D47 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EB22D68419ADB9CB00745D47 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -360,6 +363,8 @@
 				EBB5024219AE2ED700D2485A /* GuestViewController.m */,
 				EBB5024519AE331B00D2485A /* SignUpViewController.h */,
 				EBB5024619AE331B00D2485A /* SignUpViewController.m */,
+				EB0A023D19B0A0500069517B /* UIViewController+OpenFriendsList.h */,
+				EB0A023E19B0A0500069517B /* UIViewController+OpenFriendsList.m */,
 				EB23731019AF48DE005F5C4F /* FriendsListTableViewController.h */,
 				EB23731119AF48DE005F5C4F /* FriendsListTableViewController.m */,
 				EB0A023A19B090880069517B /* ChatViewController.h */,
@@ -479,6 +484,7 @@
 				EB23774119B04F1A005F5C4F /* UIAlertView+AFNetworking.m in Sources */,
 				EB23773C19B04F1A005F5C4F /* AFURLRequestSerialization.m in Sources */,
 				EBB5024A19AE37BD00D2485A /* Guest.m in Sources */,
+				EB0A023F19B0A0500069517B /* UIViewController+OpenFriendsList.m in Sources */,
 				EB23773E19B04F1A005F5C4F /* AFURLSessionManager.m in Sources */,
 				EB23731219AF48DE005F5C4F /* FriendsListTableViewController.m in Sources */,
 				EB23773719B04F1A005F5C4F /* AFHTTPRequestOperationManager.m in Sources */,

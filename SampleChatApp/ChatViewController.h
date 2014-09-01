@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *messageTextField;
 - (IBAction)sendButtonAction:(id)sender;
 @property (weak, nonatomic) IBOutlet UIView *footerView;
-@property (weak, nonatomic) NSString *friendName;
+@property (weak, nonatomic) NSString *receiverID;
+@property (weak, nonatomic) NSString *receiverName;
 
 @end

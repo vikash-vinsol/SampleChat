@@ -7,7 +7,13 @@
 //
 
 #import "User.h"
+#import "Message.h"
 
 @interface Member : User
+{
+    
+}
+
+@property (nonatomic,strong) NSMutableArray *chatArray;
 
 @end

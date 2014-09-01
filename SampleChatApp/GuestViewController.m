@@ -9,6 +9,7 @@
 #import "GuestViewController.h"
 #import "AFNetworking.h"
 #import "Constant.h"
+#import "UIViewController+OpenFriendsList.h"
 
 @interface GuestViewController ()
 
@@ -16,44 +17,35 @@
 
 @implementation GuestViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+-(instancetype)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    self = [super init];
+    
+    if (self)
+    {
+        _guest = [[Guest alloc] init];
     }
     return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 -(Guest *)guest
 {
     if (!_guest)
     {
-        
         _guest = [[Guest alloc] init];
     }
-    
     return _guest;
 }
 
 - (IBAction)submitButtonAction:(id)sender
 {
-    
     NSDictionary *dictionary = [self createParamsForServer];
     NSString *hostString = [NSString stringWithFormat:@"%@/signin", Site_Url];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager POST:hostString parameters:dictionary success:^(AFHTTPRequestOperation *operation, id responseObject)
-     {
-         NSLog(@"JSON: %@", responseObject);
-         
-         self.member.email = self.guest.email;
+     {         
+         [self generateUserData:responseObject];
          [self openFriendsListViewController];
 
      }
@@ -62,7 +54,6 @@
          NSLog(@"Error: %@", error);
      }];
 }
-
 
 -(NSDictionary *)createParamsForServer
 {
@@ -73,24 +64,5 @@
     NSDictionary *dictionary = @{@"email":self.guest.email, @"password":self.guest.password, @"device_token" : tokenString};
     return dictionary;
 }
-
--(void)openFriendsListViewController
-{
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:NULL];
-    FriendsListTableViewController *friendController  = [storyboard instantiateViewControllerWithIdentifier:@"Friends_Controller"];
-    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:friendController];
-    [self presentViewController:navigationController animated:YES completion:nil];
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

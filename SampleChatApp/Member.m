@@ -9,5 +9,18 @@
 #import "Member.h"
 
 @implementation Member
+{
+    
+}
+
+-(instancetype) init
+{
+    self = [super init];
+    if (self)
+    {
+        _chatArray = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
 
 @end
